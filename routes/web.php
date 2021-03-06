@@ -15,6 +15,7 @@ use Inertia\Inertia;
 |
 */
 
+// Index
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -24,6 +25,11 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
+// Dashboard
+Route::get('dashboard', [App\Http\Controllers\PageController::class, 'dashboard'])
+    ->middleware('auth:sanctum')
+    ->name('dashboard');
+
+//Tasks
+Route::resource('tasks', App\Http\Controllers\TaskController::class)
+    ->middleware('auth:sanctum');
